@@ -1,0 +1,10 @@
+// module.modulemap
+// Wraps the Rust FFI C header for Swift integration
+
+module RendezvousCore [
+    system
+] {
+    header "rendezvous_core.h"
+    link "rendezvous_core"
+    export *
+}

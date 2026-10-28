@@ -1,0 +1,40 @@
+{
+  "permissions": {
+    "allow": [
+      "Workflow(deep-research)",
+      "WebSearch",
+      "WebFetch(domain:www.reddit.com)",
+      "WebFetch(domain:www.esa.int)",
+      "WebFetch(domain:teamcuriosity.com)",
+      "WebFetch(domain:www.gamedev.net)",
+      "WebFetch(domain:www.physicsforgames.com)",
+      "WebFetch(domain:kerbalspaceprogram.com)",
+      "WebFetch(domain:www.universetoday.com)",
+      "WebFetch(domain:www.spaceflightsimulator.com)",
+      "WebFetch(domain:www.kspwiki.com)",
+      "WebFetch(domain:www.gamedeveloper.com)",
+      "WebFetch(domain:www.kerbalspaceprogram.com)",
+      "WebFetch(domain:www.spaceflightinsider.com)",
+      "WebFetch(domain:www.gdcvault.com)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:gdconf.com)",
+      "WebFetch(domain:www.gamasutra.com)",
+      "WebFetch(domain:www.gafferongames.com)",
+      "WebFetch(domain:www.orbitsimulator.com)",
+      "WebFetch(domain:www.orbitalmechanics.net)",
+      "WebFetch(domain:orbital-mechanics.co.uk)",
+      "Skill(deep-research)",
+      "WebFetch(domain:spaceflightsimulator.com)",
+      "Bash(cargo init *)",
+      "Bash(cargo *)",
+      "Bash(curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs)",
+      "Bash(sh -s -- -y)",
+      "Bash(mkdir -p src/macos/Rendezvous)",
+      "Bash(xcodebuild -create-xml-project Rendezvous -target Rendezvous -sdk macosx)",
+      "Bash(xcode-select *)",
+      "Bash(mkdir -p src/macos)",
+      "Bash(swift package *)",
+      "Bash(swift build *)"
+    ]
+  }
+}

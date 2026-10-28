@@ -1,0 +1,116 @@
+{
+    "projectName": "Rendezvous",
+    "description": "A 2D space simulation game inspired by Space Flight Simulator and Kerbal Space Program.",
+    "defaultModel": "claude-opus-5-5",
+    "defaultEffort": "high",
+    "defaultPermissionMode": "project",
+    "defaultShell": "zsh",
+    "defaultWorkingDirectory": "/Users/hardik/Code/rendezvous",
+    "defaultTools": [
+        "Bash",
+        "Read",
+        "Write",
+        "Edit",
+        "Agent",
+        "Artifact",
+        "WebFetch",
+        "WebSearch"
+    ],
+    "defaultAgentType": "claude",
+    "defaultAgentModel": "claude-opus-5-5",
+    "defaultAgentEffort": "high",
+    "defaultAgentIsolation": "worktree",
+    "defaultAgentTimeout": 300,
+    "defaultAgentMaxConcurrency": 4,
+    "defaultAgentMaxRetries": 2,
+    "defaultAgentMaxDepth": 5,
+    "defaultAgentMaxTokens": 10000,
+    "defaultAgentMaxMemory": 1000,
+    "defaultAgentMaxMemorySize": 1000000,
+    "hooks": {
+        "on_start": [
+            "cd /Users/hardik/Code/rendezvous"
+        ],
+        "on_commit": [
+            "git add -A && git commit -m "$1""
+        ],
+        "on_push": [
+            "git push"
+        ],
+        "on_before_edit": [
+            "echo 'About to edit: $1'",
+            "echo 'File: $2'"
+        ],
+        "on_before_write": [
+            "echo 'About to write: $1'",
+            "echo 'File: $2'"
+        ],
+        "on_before_read": [
+            "echo 'About to read: $1'"
+        ],
+        "on_before_agent": [
+            "echo 'Starting agent: $1'"
+        ],
+        "on_before_artifact": [
+            "echo 'Creating artifact: $1'"
+        ]
+    },
+    "slashCommands": {
+        "build": {
+            "description": "Build the Rendezvous project for a specific platform.",
+            "args": "platform (macos|android|web)",
+            "command": "echo 'Building for platform: $1'"
+        },
+        "test": {
+            "description": "Run tests for the Rendezvous project.",
+            "args": "test_type (unit|integration)",
+            "command": "echo 'Running $1 tests'"
+        },
+        "run": {
+            "description": "Run the Rendezvous game in development mode.",
+            "command": "echo 'Running Rendezvous in development mode'"
+        },
+        "lint": {
+            "description": "Run linters on the Rendezvous codebase.",
+            "command": "echo 'Running linters'"
+        }
+    },
+    "permissions": {
+        "global": [
+            "Bash",
+            "Read",
+            "Write",
+            "Edit",
+            "Agent",
+            "Artifact",
+            "WebFetch",
+            "WebSearch"
+        ],
+        "project": [
+            "Bash",
+            "Read",
+            "Write",
+            "Edit",
+            "Agent",
+            "Artifact",
+            "WebFetch",
+            "WebSearch"
+        ],
+        "user": [
+            "Bash",
+            "Read",
+            "Write",
+            "Edit",
+            "Agent",
+            "Artifact",
+            "WebFetch",
+            "WebSearch"
+        ],
+        "shell": [
+            "Bash"
+        ],
+        "git": [
+            "Bash"
+        ]
+    }
+}

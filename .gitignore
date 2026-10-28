@@ -1,0 +1,103 @@
+# Gitignore for Rendezvous project
+
+# Derived data
+.DS_Store
+*.swp
+*.swo
+*.swo~
+
+# Build artifacts
+build/
+builds/
+target/
+*.dSYM/
+*.pdb
+*.exe
+*.dll
+*.so
+*.dylib
+*.a
+*.lib
+
+# Xcode
+*.xcodeproj
+*.xcworkspace
+*.xcscheme
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.mode3v3
+*.perspectivev3
+*.xcuserdatad
+*.xccheckout
+*.moved-aside
+DerivedData/
+
+# Swift Package Manager
+.Package
+dist/
+
+# Rust
+target/
+
+# macOS
+~/
+*.DS_Store
+
+# IDE
+.idea/
+.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln
+*.user
+*.userosscache
+
+# Logs and databases
+*.log
+*.sqlite
+*.db
+
+# OS generated files
+.DS_Store
+.LSOverride
+
+# Dependency managers
+node_modules/
+vendor/
+bower_components/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+._*
+
+# macOS
+*.DS_Store
+
+# Visual Studio Code
+.vscode/
+.vscode-test/
+
+# Android
+build/
+.gradle/
+
+# Web
+node_modules/
+dist/
+build/
+
+# Docker
+.Dockerfile
+.dockerignore
+
+# Misc
+*.swp
+*.swo
+*.swo~
