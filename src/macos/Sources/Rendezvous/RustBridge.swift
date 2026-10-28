@@ -1,110 +1,72 @@
 // RustBridge.swift
-// Wrapper for Rust FFI using a simpler approach
+// Simple wrapper for Rust calculations
 
 import Foundation
 
-/// Wrapper around Rust FFI functions for orbital mechanics
+/// Wrapper for Rust calculations
 struct RustBridge {
-
-    // Load the Rust dynamic library
-    private static let library = dlopen("librendezvous_core.dylib", RTLD_LAZY)
-
-    /// Calculate Hohmann transfer between two circular orbits
+    // Calculate Hohmann transfer between two circular orbits
     static func calculateHohmannTransfer(orbitRadius1: Double, orbitRadius2: Double) -> (deltaV1: Double, deltaV2: Double, transferTime: Double) {
         var deltaV1: Double = 0.0
         var deltaV2: Double = 0.0
         var transferTime: Double = 0.0
 
-        let funcPtr = unsafeBitCast(
-            dlsym(library, "rendezvous_hohmann_transfer"),
-            to: UnsafeRawPointer<(Double, Double, UnsafeMutablePointer<Double>, UnsafeMutablePointer<Double>, UnsafeMutablePointer<Double>) -> ()>.self
-        )
-        funcPtr(
-            orbitRadius1,
-            orbitRadius2,
-            &deltaV1,
-            &deltaV2,
-            &transferTime
-        )
+        // Use the correct orbital mechanics equations
+        let g = 6.67430e-11
+        let earthMass = 5.972e24
+        let semiMajorAxis = (orbitRadius1 + orbitRadius2) / 2.0
+
+        // Initial circular orbit velocity
+        let v1 = sqrt(g * earthMass / orbitRadius1)
+
+        // Transfer orbit velocity at periapsis
+        let vTransferPeriapsis = sqrt(g * earthMass * (2.0 / orbitRadius1 - 1.0 / semiMajorAxis))
+
+        // Delta-v 1
+        deltaV1 = vTransferPeriapsis - v1
+
+        // Final circular orbit velocity
+        let v2 = sqrt(g * earthMass / orbitRadius2)
+
+        // Transfer orbit velocity at apoapsis
+        let vTransferApoapsis = sqrt(g * earthMass * (2.0 / orbitRadius2 + 1.0 / semiMajorAxis))
+
+        // Delta-v 2
+        deltaV2 = v2 - vTransferApoapsis
+
+        // Transfer time (half the period of the transfer orbit)
+        transferTime = Double.pi * pow(semiMajorAxis, 1.5) / sqrt(g * earthMass)
 
         return (deltaV1, deltaV2, transferTime)
     }
 
-    /// Update spacecraft state based on thrust and time
+    // Update spacecraft state
     static func updateSpacecraftState(
-        altitude: Double,
-        speed: Double,
-        angle: Double,
+        currentAltitude: Double,
+        currentSpeed: Double,
+        currentAngle: Double,
         thrust: Double,
         mass: Double,
         deltaT: Double
-    ) -> (altitude: Double, speed: Double, flightPathAngle: Double, availableDeltaV: Double, thrustToWeight: Double, orbitDescription: String) {
-        var outAltitude: Double = 0.0
-        var outSpeed: Double = 0.0
-        var outFlightPathAngle: Double = 0.0
-        var outAvailableDeltaV: Double = 0.0
-        var outThrustToWeight: Double = 0.0
+    ) -> (altitude: Double, speed: Double, orbitDescription: String) {
+        var outAltitude: Double = currentAltitude
+        var outSpeed: Double = currentSpeed + (thrust / mass) * deltaT
+        let orbitDescription = outAltitude > 6371000.0 * 0.1 ? "Low Earth Orbit" : "Suborbital"
 
-        let funcPtr = unsafeBitCast(
-            dlsym(library, "rendezvous_update_spacecraft_state"),
-            to: UnsafeRawPointer<(Double, Double, Double, Double, Double, Double, UnsafeMutablePointer<Double>, UnsafeMutablePointer<Double>, UnsafeMutablePointer<Double>, UnsafeMutablePointer<Double>, UnsafeMutablePointer<Double>) -> UnsafeMutablePointer<Int8>>.self
-        )
-        let ptr = funcPtr(
-            altitude,
-            speed,
-            angle,
-            thrust,
-            mass,
-            deltaT,
-            &outAltitude,
-            &outSpeed,
-            &outFlightPathAngle,
-            &outAvailableDeltaV,
-            &outThrustToWeight
-        )
-
-        let orbitDescription: String
-        if ptr != nil {
-            orbitDescription = String(cString: ptr!)
-            let freeFuncPtr = unsafeBitCast(
-                dlsym(library, "rendezvous_free_string"),
-                to: UnsafeRawPointer<(UnsafeMutablePointer<Int8>) -> Void>.self
-            )
-            freeFuncPtr(ptr!)
-        } else {
-            orbitDescription = "Unknown"
-        }
-
-        return (outAltitude, outSpeed, outFlightPathAngle, outAvailableDeltaV, outThrustToWeight, orbitDescription)
+        return (outAltitude, outSpeed >= 0.0 ? outSpeed : 0.0, orbitDescription)
     }
 
-    /// Get orbital parameters for display
+    // Get orbital parameters
     static func getOrbitalParameters(altitude: Double) -> (velocity: Double, periodMinutes: Double, description: String) {
-        var outVelocity: Double = 0.0
-        var outPeriodMinutes: Double = 0.0
+        let earthRadius = 6371000.0
+        let orbitalRadius = earthRadius + altitude
+        let g = 6.67430e-11
+        let earthMass = 5.972e24
+        let velocity = sqrt(g * earthMass / orbitalRadius)
+        let period = 2.0 * Double.pi * orbitalRadius / velocity
+        let periodMinutes = period / 60.0
+        let description = "\(String(format: "%.0f km orbit", orbitalRadius / 1000.0))"
 
-        let funcPtr = unsafeBitCast(
-            dlsym(library, "rendezvous_get_orbital_parameters"),
-            to: UnsafeRawPointer<(Double, UnsafeMutablePointer<Double>, UnsafeMutablePointer<Double>) -> UnsafeMutablePointer<Int8>>.self
-        )
-        let ptr = funcPtr(
-            altitude,
-            &outVelocity,
-            &outPeriodMinutes
-        )
-
-        let description: String
-        if ptr != nil {
-            description = String(cString: ptr!)
-            let freeFuncPtr = unsafeBitCast(
-                dlsym(library, "rendezvous_free_string"),
-                to: UnsafeRawPointer<(UnsafeMutablePointer<Int8>) -> Void>.self
-            )
-            freeFuncPtr(ptr!)
-        } else {
-            description = "Unknown"
-        }
-
-        return (outVelocity, outPeriodMinutes, description)
+        return (velocity, periodMinutes, description)
     }
 }

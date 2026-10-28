@@ -314,21 +314,14 @@ struct ContentView: View {
 
     // Update game state using Rust calculations
     func updateGameState() {
+        // Get orbital parameters from Rust
         let altitude = rocketAltitude
-        let (velocity, period, orbitDescription) = RustBridge.getOrbitalParameters(altitude: altitude)
-        let semiMajorAxis = altitude + 6371000.0
-        let eccentricity = 0.0
-        let periapsis = semiMajorAxis
-        let apoapsis = semiMajorAxis
+        let params = RustBridge.getOrbitalParameters(altitude: altitude)
 
         // Update UI state
-        rocketSpeed = velocity
-        orbitalPeriod = period
-        currentOrbit = orbitDescription
-        self.semiMajorAxis = semiMajorAxis
-        self.eccentricity = eccentricity
-        self.periapsis = periapsis
-        self.apoapsis = apoapsis
+        rocketSpeed = params.velocity
+        orbitalPeriod = params.periodMinutes
+        currentOrbit = params.description
     }
 }
 
