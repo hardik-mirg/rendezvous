@@ -1,0 +1,10 @@
+{
+    "id": "battery-001",
+    "type": "battery",
+    "name": "Standard Battery",
+    "mass": 100.0,
+    "width": 1.0,
+    "height": 1.0,
+    "batteryCapacity": 10.0,
+    "description": "Standard rechargeable battery"
+}

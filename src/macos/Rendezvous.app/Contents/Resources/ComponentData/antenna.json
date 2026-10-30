@@ -1,0 +1,10 @@
+{
+    "id": "antenna-001",
+    "type": "antenna",
+    "name": "Standard Antenna",
+    "mass": 50.0,
+    "width": 0.8,
+    "height": 1.5,
+    "antennaRange": 1000.0,
+    "description": "Standard communication antenna"
+}

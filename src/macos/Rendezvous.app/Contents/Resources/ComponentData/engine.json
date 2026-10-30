@@ -1,0 +1,12 @@
+{
+    "id": "engine-001",
+    "type": "engine",
+    "name": "Chemical Rocket Engine",
+    "mass": 1500.0,
+    "width": 2.0,
+    "height": 3.0,
+    "thrust": 350000.0,
+    "maxThrust": 350000.0,
+    "burnTime": 180.0,
+    "description": "Standard chemical rocket engine using liquid fuel"
+}

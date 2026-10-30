@@ -1,0 +1,10 @@
+{
+    "id": "reaction-wheel-001",
+    "type": "reactionWheel",
+    "name": "Standard Reaction Wheel",
+    "mass": 40.0,
+    "width": 0.6,
+    "height": 0.6,
+    "reactionWheelTorque": 5.0,
+    "description": "Standard reaction wheel for attitude control"
+}

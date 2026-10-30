@@ -1,0 +1,10 @@
+{
+    "id": "landing-gear-001",
+    "type": "landingGear",
+    "name": "Standard Landing Gear",
+    "mass": 300.0,
+    "width": 1.5,
+    "height": 2.0,
+    "landingGear": true,
+    "description": "Standard landing gear for touchdown"
+}

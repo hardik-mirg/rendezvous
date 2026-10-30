@@ -3,24 +3,31 @@ import PackageDescription
 
 let package = Package(
     name: "Rendezvous",
+    platforms: [
+        .macOS(.v13)
+    ],
     dependencies: [
-        // Dependencies for cross-platform development
+        .package(url: "https://github.com/apple/swift-argument-parser.git", from: "1.2.0")
     ],
     targets: [
-        .target(
+        .executableTarget(
             name: "Rendezvous",
-            dependencies: [],
+            dependencies: [
+                .product(name: "ArgumentParser", package: "swift-argument-parser")
+            ],
             path: "Sources/Rendezvous",
             resources: [
-                .copy("librendezvous_core.dylib")
+                .copy("librendezvous_core.dylib"),
+                .process("ComponentData"),
+                .process("Assets")
             ],
             linkerSettings: [
-                .linkedLibrary("rendezvous_core"),
+                .unsafeFlags(["-L", "Sources/Rendezvous", "-lrendezvous_core"])
             ]
         ),
         .testTarget(
             name: "RendezvousTests",
-            dependencies: [],
+            dependencies: ["Rendezvous"],
             path: "Tests"
         )
     ]

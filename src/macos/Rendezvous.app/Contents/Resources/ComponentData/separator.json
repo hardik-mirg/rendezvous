@@ -1,0 +1,9 @@
+{
+    "id": "separator-001",
+    "type": "separator",
+    "name": "Stage Separator",
+    "mass": 100.0,
+    "width": 1.0,
+    "height": 0.5,
+    "description": "Stage separation mechanism"
+}
